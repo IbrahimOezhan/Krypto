@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linux Bash and Cryptography Essentials</title>
+    <title>Cryptography Essentials</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,79 +29,101 @@
     </style>
 </head>
 <body>
-<h1>Linux Bash and Cryptography Essentials</h1>
-<p>This page combines Bash scripting concepts with foundational cryptography knowledge.</p>
+<h1>Cryptography Essentials</h1>
+<p>Cryptography is the foundation of secure communication and ensures confidentiality, integrity, and authenticity in the digital world. This page dives into the core concepts, techniques, and applications of cryptography.</p>
 
-<h2>1. Cryptography Basics</h2>
-<p>Cryptography enables secure communication over insecure channels and addresses key objectives:</p>
+<h2>1. Core Objectives of Cryptography</h2>
 <ul>
-    <li><strong>Confidentiality:</strong> Ensures that data is accessible only to authorized users.</li>
-    <li><strong>Integrity:</strong> Prevents undetected modification of data.</li>
-    <li><strong>Non-repudiation:</strong> Validates the authenticity of a message, ensuring the sender cannot deny authorship.</li>
+    <li><strong>Confidentiality:</strong> Ensures data is accessible only to authorized users.</li>
+    <li><strong>Integrity:</strong> Guarantees data cannot be altered undetected.</li>
+    <li><strong>Authenticity:</strong> Confirms the identity of the sender and the origin of the message.</li>
+    <li><strong>Non-repudiation:</strong> Prevents the sender from denying the creation or transmission of a message.</li>
 </ul>
 
-<h3>1.1 Encryption and Decryption</h3>
-<p>Encryption transforms plaintext into unreadable ciphertext using a key, while decryption reverts it back to plaintext.</p>
-<pre><code># Example using OpenSSL
-# Encrypt a message
-openssl enc -aes-256-cbc -salt -in message.txt -out message.enc
+<h2>2. Types of Cryptographic Techniques</h2>
 
-# Decrypt the message
-openssl enc -aes-256-cbc -d -in message.enc -out message.txt</code></pre>
-
-<h3>1.2 Types of Cryptographic Algorithms</h3>
+<h3>2.1 Symmetric Key Cryptography</h3>
+<p>Both the sender and receiver use the same key for encryption and decryption.</p>
 <ul>
-    <li><strong>Symmetric Cryptography:</strong> Uses the same key for encryption and decryption (e.g., AES).</li>
-    <li><strong>Asymmetric Cryptography:</strong> Uses a public/private key pair for encryption and decryption (e.g., RSA).</li>
+    <li><strong>Advantages:</strong> Fast and efficient.</li>
+    <li><strong>Disadvantages:</strong> Requires secure key exchange.</li>
 </ul>
+<p><strong>Example:</strong> Advanced Encryption Standard (AES)</p>
+<pre><code># Encrypt a file using OpenSSL and AES
+openssl enc -aes-256-cbc -salt -in message.txt -out message.enc</code></pre>
 
-<h3>1.3 Kerckhoff's Principle</h3>
-<p>The security of a cryptographic system should rely on the secrecy of the key, not the algorithm. Public algorithms are preferred over obscurity for transparency and trust.</p>
+<h3>2.2 Asymmetric Key Cryptography</h3>
+<p>Uses a pair of keys: a public key for encryption and a private key for decryption.</p>
+<ul>
+    <li><strong>Advantages:</strong> Solves the key distribution problem.</li>
+    <li><strong>Disadvantages:</strong> Slower than symmetric cryptography.</li>
+</ul>
+<p><strong>Example:</strong> RSA (Rivest-Shamir-Adleman)</p>
+<pre><code># Generate an RSA key pair
+openssl genpkey -algorithm RSA -out private_key.pem
+openssl rsa -pubout -in private_key.pem -out public_key.pem</code></pre>
 
-<h3>1.4 Cryptographic Hash Functions</h3>
-<p>Hash functions generate fixed-length digests from input data. They are deterministic, collision-resistant, and irreversible.</p>
+<h3>2.3 Cryptographic Hash Functions</h3>
+<p>Hash functions produce a fixed-length digest from input data of any size. These are essential for integrity verification.</p>
+<ul>
+    <li><strong>Properties:</strong>
+        <ul>
+            <li><strong>Deterministic:</strong> Same input always produces the same output.</li>
+            <li><strong>Collision-resistant:</strong> Difficult to find two inputs with the same output.</li>
+            <li><strong>Irreversible:</strong> Cannot derive the original input from the hash.</li>
+        </ul>
+    </li>
+</ul>
+<p><strong>Example:</strong> Secure Hash Algorithm (SHA)</p>
 <pre><code># Generate a SHA-256 hash
-sha256sum <<< "Example text"</code></pre>
+sha256sum <<< "Example message"</code></pre>
 
-<h2>2. Public Key Infrastructure (PKI)</h2>
-<p>PKI establishes trust through certificate authorities (CAs) that verify identities and sign digital certificates.</p>
-<ul>
-    <li><strong>Digital Certificates:</strong> Bind public keys to entities and are signed by CAs.</li>
-    <li><strong>Certificate Validation:</strong> Involves checking the certificate chain and verifying the CA's signature.</li>
-</ul>
+<h2>3. Cryptographic Concepts and Principles</h2>
 
-<h3>2.1 Example Tools</h3>
+<h3>3.1 Kerckhoff’s Principle</h3>
+<p>The security of a cryptosystem should depend solely on the secrecy of the key, not the algorithm. Public algorithms are preferred for transparency and peer review.</p>
+
+<h3>3.2 Key Length</h3>
+<p>The security of cryptographic systems increases with key length. However, longer keys require more computational resources.</p>
+<p><strong>Example:</strong> AES supports key lengths of 128, 192, and 256 bits.</p>
+
+<h3>3.3 Digital Signatures</h3>
+<p>Digital signatures ensure the authenticity and integrity of messages. They are created using the sender’s private key and verified with the sender’s public key.</p>
+<pre><code># Create a digital signature
+openssl dgst -sha256 -sign private_key.pem -out signature.bin message.txt
+
+# Verify the signature
+openssl dgst -sha256 -verify public_key.pem -signature signature.bin message.txt</code></pre>
+
+<h2>4. Practical Applications</h2>
+
+<h3>4.1 Secure Communication</h3>
+<p>Protocols like TLS/SSL use cryptography to secure data transmitted over networks.</p>
+
+<h3>4.2 Data Integrity Verification</h3>
+<p>Cryptographic hashes are used to ensure file integrity during downloads.</p>
+<pre><code># Verify the integrity of a file
+sha256sum file.iso</code></pre>
+
+<h3>4.3 Authentication</h3>
+<p>Systems like OAuth and JWTs rely on cryptographic techniques to authenticate users securely.</p>
+
+<h2>5. Advanced Topics</h2>
+
+<h3>5.1 Post-Quantum Cryptography</h3>
+<p>Emerging quantum computers pose risks to traditional cryptographic systems. Post-quantum algorithms are being developed to address these challenges.</p>
+
+<h3>5.2 Hybrid Cryptosystems</h3>
+<p>Combines the strengths of symmetric and asymmetric cryptography. For example, asymmetric cryptography is used to exchange symmetric keys securely.</p>
+
+<h2>6. Tools and Resources</h2>
 <ul>
+    <li><a href="https://www.openssl.org">OpenSSL</a>: Toolkit for SSL/TLS and cryptographic functions.</li>
+    <li><a href="https://gnupg.org">GnuPG</a>: Open-source implementation of PGP for secure communication.</li>
     <li><a href="https://letsencrypt.org">Let’s Encrypt</a>: Free certificates for HTTPS.</li>
-    <li><a href="https://gnupg.org">GnuPG</a>: Tools for secure communication and data encryption.</li>
 </ul>
 
-<h2>3. Key Differences Between Bash Operators</h2>
-<h3>Input Redirection</h3>
-<ul>
-    <li><code><</code>: Redirects file content as input to a command.</li>
-    <li><code><<</code>: Here-document provides inline input.</li>
-    <li><code><<<</code>: Here-string provides a single-line input.</li>
-</ul>
-
-<h3>Output Redirection</h3>
-<ul>
-    <li><code>></code>: Overwrites output to a file.</li>
-    <li><code>>></code>: Appends output to a file.</li>
-</ul>
-
-<h3>Pipes and Process Substitution</h3>
-<ul>
-    <li><code>|</code>: Sends the output of one command to another.</li>
-    <li><code>|&</code>: Redirects both stdout and stderr to another command.</li>
-</ul>
-
-<h2>4. Combining Bash and Cryptography</h2>
-<p>Bash scripting simplifies cryptographic tasks through automation. For example:</p>
-<pre><code># Automated encryption and decryption
-for file in *.txt; do
-    openssl enc -aes-256-cbc -salt -in "$file" -out "$file.enc"
-    echo "$file encrypted."
-done</code></pre>
+<h2>7. Conclusion</h2>
+<p>Cryptography is an essential component of modern security systems. Understanding its principles and applications empowers individuals and organizations to protect sensitive information effectively.</p>
 </body>
 </html>
