@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kryptographie: Grundlagen und Anwendungen</title>
+    <title>Kryptographie: Detaillierte Grundlagen und Anwendungen</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,97 +29,98 @@
     </style>
 </head>
 <body>
-<h1>Kryptographie: Grundlagen und Anwendungen</h1>
-<p>Kryptographie bildet die Grundlage für sichere Kommunikation und ermöglicht Vertraulichkeit, Integrität und Authentizität in digitalen Systemen. Diese Seite bietet eine detaillierte Einführung in die Grundlagen und Anwendungen.</p>
+<h1>Kryptographie: Detaillierte Grundlagen und Anwendungen</h1>
+<p>Kryptographie bildet die Grundlage für sichere Kommunikation und ermöglicht Vertraulichkeit, Integrität und Authentizität in digitalen Systemen. Diese Seite bietet eine umfassende Einführung in Konzepte, Verfahren und praktische Anwendungen der Kryptographie sowie zugehöriger Netzwerktechnologien.</p>
 
 <h2>1. Ziele der Kryptographie</h2>
 <ul>
-    <li><strong>Vertraulichkeit:</strong> Daten dürfen nur von autorisierten Personen gelesen werden.</li>
-    <li><strong>Integrität:</strong> Daten dürfen nicht unbemerkt verändert werden.</li>
-    <li><strong>Authentizität:</strong> Die Identität des Absenders wird sichergestellt.</li>
-    <li><strong>Nicht-Abstreitbarkeit:</strong> Der Absender kann das Erstellen oder Senden einer Nachricht nicht leugnen.</li>
+    <li><strong>Vertraulichkeit:</strong> Daten dürfen nur von autorisierten Personen gelesen werden. Dies gilt sowohl für gespeicherte Daten als auch für die Datenübertragung.</li>
+    <li><strong>Integrität:</strong> Daten dürfen nicht unbemerkt verändert werden. Jede Änderung muss nachvollziehbar sein.</li>
+    <li><strong>Authentizität:</strong> Sicherstellung der Identität des Absenders oder des Systems.</li>
+    <li><strong>Nicht-Abstreitbarkeit:</strong> Der Absender kann nicht leugnen, eine Nachricht erstellt oder gesendet zu haben.</li>
+    <li><strong>Verfügbarkeit:</strong> Systeme und Daten müssen verfügbar bleiben, selbst unter Angriffen oder hoher Auslastung.</li>
 </ul>
 
-<h2>2. Kryptographische Methoden</h2>
+<h2>2. Beispiel: Kommunikation mit Man-in-the-Middle-Angriff</h2>
+<p>Betrachten wir eine verschlüsselte Kommunikation zwischen Alice und Bob, bei der ein Angreifer (Mallory) versucht, Nachrichten abzufangen und zu manipulieren.</p>
 
-<h3>2.1 Symmetrische Verschlüsselung</h3>
-<p>Bei symmetrischen Verfahren wird derselbe Schlüssel sowohl für die Verschlüsselung als auch für die Entschlüsselung verwendet.</p>
+<h3>2.1 Szenario ohne Schutz</h3>
+<p>Angreifer Mallory kann Nachrichten abfangen, lesen und verändern:</p>
+<pre><code>Alice: "Hallo Bob!" --> [Intercepted by Mallory] --> Bob: "Hallo Bob!" (möglicherweise manipuliert)</code></pre>
+
+<h3>2.2 Schutz durch Kryptographie</h3>
 <ul>
-    <li><strong>Vorteile:</strong> Schnell und ressourcenschonend.</li>
-    <li><strong>Nachteile:</strong> Sicherer Schlüsselaustausch erforderlich.</li>
+    <li><strong>Vertraulichkeit:</strong> Die Nachricht wird mit einem Schlüssel verschlüsselt, sodass Mallory sie nicht lesen kann.</li>
+    <li><strong>Integrität:</strong> Ein Hashwert der Nachricht wird erzeugt und überprüft, um Manipulationen zu erkennen.</li>
+    <li><strong>Authentizität:</strong> Alice signiert die Nachricht digital, sodass Bob ihre Identität verifizieren kann.</li>
 </ul>
-<p><strong>Beispiel:</strong> Advanced Encryption Standard (AES)</p>
-<pre><code># Verschlüsseln einer Datei mit OpenSSL
-openssl enc -aes-256-cbc -salt -in nachricht.txt -out nachricht.enc</code></pre>
+<pre><code># Nachricht verschlüsseln und signieren
+openssl enc -aes-256-cbc -salt -in nachricht.txt -out verschluesselt.enc
+openssl dgst -sha256 -sign privatschluessel.pem -out signatur.bin verschluesselt.enc</code></pre>
 
-<h3>2.2 Asymmetrische Verschlüsselung</h3>
-<p>Asymmetrische Verfahren verwenden ein Schlüsselpaar: einen öffentlichen Schlüssel zum Verschlüsseln und einen privaten Schlüssel zum Entschlüsseln.</p>
+<h2>3. Netzwerkprotokolle und Technologien</h2>
+
+<h3>3.1 Die vier Anwendungsschichten des TCP/IP-Modells</h3>
 <ul>
-    <li><strong>Vorteile:</strong> Lösung des Schlüsselaustauschproblems.</li>
-    <li><strong>Nachteile:</strong> Langsamer als symmetrische Verfahren.</li>
+    <li><strong>Anwendungsschicht:</strong> HTTP, FTP, SMTP, POP3</li>
+    <li><strong>Transportschicht:</strong> TCP, UDP, SCRP</li>
+    <li><strong>Internetschicht:</strong> IP, ICMP</li>
+    <li><strong>Netzzugangsschicht:</strong> Ethernet, WLAN, Token Ring</li>
 </ul>
-<p><strong>Beispiel:</strong> RSA (Rivest-Shamir-Adleman)</p>
-<pre><code># Generieren eines RSA-Schlüsselpaares
-openssl genpkey -algorithm RSA -out privatschluessel.pem
-openssl rsa -pubout -in privatschluessel.pem -out public_schluessel.pem</code></pre>
 
-<h3>2.3 Kryptographische Hash-Funktionen</h3>
-<p>Hash-Funktionen erzeugen aus beliebigen Eingabedaten einen Hash-Wert fester Länge. Diese dienen der Integritätsprüfung.</p>
+<h3>3.2 NAT (Network Address Translation)</h3>
+<p>NAT verringert die Problematik der begrenzten IPv4-Adressen, indem interne Netzwerkadressen von öffentlichen IP-Adressen getrennt werden.</p>
+<p><strong>Private Adressbereiche:</strong></p>
 <ul>
-    <li><strong>Eigenschaften:</strong>
-        <ul>
-            <li><strong>Deterministisch:</strong> Gleiche Eingabe ergibt immer denselben Hash-Wert.</li>
-            <li><strong>Kollisionsresistent:</strong> Es ist schwierig, zwei verschiedene Eingaben mit demselben Hash zu finden.</li>
-            <li><strong>Irreversibel:</strong> Der ursprüngliche Input kann nicht aus dem Hash rekonstruiert werden.</li>
-        </ul>
-    </li>
+    <li>10.0.0.0 - 10.255.255.255: ca. 16 Mio Adressen</li>
+    <li>172.16.0.0 - 172.31.255.255: ca. 1 Mio Adressen</li>
+    <li>192.168.0.0 - 192.168.255.255: ca. 65.500 Adressen</li>
 </ul>
-<p><strong>Beispiel:</strong> Secure Hash Algorithm (SHA)</p>
-<pre><code># Generieren eines SHA-256-Hashwerts
-sha256sum <<< "Beispieltext"</code></pre>
+<p>Die Adresse <code>127.0.0.1</code> wird als <strong>localhost</strong> verwendet.</p>
 
-<h2>3. Kryptographische Prinzipien</h2>
+<h3>3.3 CIDR (Classless Inter-Domain Routing)</h3>
+<p>CIDR ermöglicht flexiblere Netzwerkeinteilungen als die ursprüngliche Klasseneinteilung (A, B, C). Beispiel:</p>
+<pre><code>IP-Adresse: 192.168.45.3
+Subnetzmaske: 255.255.0.0
 
-<h3>3.1 Kerckhoff’sches Prinzip</h3>
-<p>Die Sicherheit eines kryptographischen Systems sollte nur von der Geheimhaltung des Schlüssels abhängen, nicht vom Algorithmus. Öffentliche Algorithmen sind bevorzugt, da sie transparent und überprüfbar sind.</p>
+Netzadresse: 192.168.0.0
+Broadcast: 192.168.255.255
+Erster Host: 192.168.0.1
+Letzter Host: 192.168.255.254
+Anzahl Geräte: 65.534</code></pre>
 
-<h3>3.2 Digitale Signaturen</h3>
-<p>Digitale Signaturen stellen die Authentizität und Integrität von Nachrichten sicher. Sie werden mit dem privaten Schlüssel des Absenders erstellt und mit dem öffentlichen Schlüssel verifiziert.</p>
-<pre><code># Erstellen einer digitalen Signatur
-openssl dgst -sha256 -sign privatschluessel.pem -out signatur.bin nachricht.txt
+<h2>4. Brute-Force- und MitM-Angriffe</h2>
 
-# Verifizieren der Signatur
-openssl dgst -sha256 -verify public_schluessel.pem -signature signatur.bin nachricht.txt</code></pre>
+<h3>4.1 Brute-Force-Angriffe</h3>
+<p>Der Angreifer versucht, alle möglichen Kombinationen eines Passworts zu testen.</p>
+<pre><code>Beispiel: Länge l=3
+000 - 999 = 1.000 Kombinationen
 
-<h2>4. Praktische Anwendungen</h2>
+Länge l=4
+0000 - 9999 = 10.000 Kombinationen</code></pre>
 
-<h3>4.1 Sichere Kommunikation</h3>
-<p>Protokolle wie TLS/SSL nutzen Kryptographie, um Daten während der Übertragung zu schützen.</p>
+<h3>4.2 Man-in-the-Middle (MitM)-Angriffe</h3>
+<p>Der Angreifer positioniert sich zwischen zwei Kommunizierenden, um Nachrichten abzufangen und zu manipulieren.</p>
+<p><strong>Schutzmaßnahmen:</strong></p>
+<ul>
+    <li>Verwendung von TLS/SSL zur Verschlüsselung</li>
+    <li>Implementierung von digitalen Signaturen zur Authentifizierung</li>
+    <li>Überprüfung von Zertifikaten zur Verhinderung von DNS-Spoofing</li>
+</ul>
 
-<h3>4.2 Integritätsprüfung</h3>
-<p>Kryptographische Hash-Funktionen werden verwendet, um die Integrität von Dateien zu überprüfen.</p>
-<pre><code># Überprüfung der Integrität einer Datei
-sha256sum datei.iso</code></pre>
-
-<h3>4.3 Authentifizierung</h3>
-<p>Kryptographische Methoden wie digitale Zertifikate werden verwendet, um Benutzer oder Systeme zu authentifizieren.</p>
-
-<h2>5. Erweiterte Themen</h2>
-
-<h3>5.1 Quantenresistente Kryptographie</h3>
-<p>Mit der Entwicklung von Quantencomputern könnten traditionelle kryptographische Verfahren unsicher werden. Neue Algorithmen werden entwickelt, um diesem Risiko zu begegnen.</p>
-
-<h3>5.2 Hybride Kryptosysteme</h3>
-<p>Hybride Systeme kombinieren die Effizienz symmetrischer und die Flexibilität asymmetrischer Verfahren. Beispielsweise wird ein symmetrischer Schlüssel mit asymmetrischer Kryptographie sicher ausgetauscht.</p>
+<h2>5. Salz und Hash-Werte</h2>
+<p>Salz wird zu Passwörtern hinzugefügt, bevor sie gehasht werden, um Rainbow-Table-Angriffe zu verhindern.</p>
+<pre><code># Passwort mit Salz hashen
+openssl passwd -6 -salt zufallssalz meinpasswort</code></pre>
 
 <h2>6. Werkzeuge und Ressourcen</h2>
 <ul>
-    <li><a href="https://www.openssl.org">OpenSSL</a>: Toolkit für SSL/TLS und kryptographische Funktionen.</li>
-    <li><a href="https://gnupg.org">GnuPG</a>: Open-Source-Implementierung von PGP für sichere Kommunikation.</li>
+    <li><a href="https://www.openssl.org">OpenSSL</a>: Kryptographietoolkit für SSL/TLS.</li>
+    <li><a href="https://gnupg.org">GnuPG</a>: Open-Source-Tool für verschlüsselte Kommunikation.</li>
     <li><a href="https://letsencrypt.org">Let’s Encrypt</a>: Kostenlose Zertifikate für HTTPS.</li>
 </ul>
 
 <h2>7. Fazit</h2>
-<p>Kryptographie ist ein unverzichtbarer Bestandteil moderner Sicherheitssysteme. Das Verständnis ihrer Prinzipien und Anwendungen ermöglicht es, sensible Informationen effektiv zu schützen.</p>
+<p>Kryptographie und Netzwerktechnologien bilden das Rückgrat moderner IT-Sicherheit. Durch die Kombination von Verschlüsselung, Authentifizierung und Integritätsschutz können Daten und Kommunikation effektiv geschützt werden.</p>
 </body>
 </html>
